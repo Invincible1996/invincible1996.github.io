@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Flutter WebView 和JavaScript 交互, Flutter">
+    <meta name="keywords" content="Flutter1.12升级后遇到的问题, Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Flutter WebView 和JavaScript 交互 | Flutter</title>
+    <title>Flutter1.12升级后遇到的问题 | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Flutter WebView 和JavaScript 交互</h1>
+                    <h1 class="description center-align post-title">Flutter1.12升级后遇到的问题</h1>
                 </div>
             </div>
         </div>
@@ -448,7 +448,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-04-01
+                    2020-04-02
                 </div>
                 
 
@@ -465,121 +465,39 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>flutter官方并没有提供WebView组件，不过官方的plugin库给我们提供了webview_flutter插件，集成到我们的项目中就可以使用了</p>
-<h2 id="一、集成"><a href="#一、集成" class="headerlink" title="一、集成"></a>一、集成</h2><pre><code>在项目的pubspec.yaml文件中添加一下代码
-webview_flutter: ^0.3.19+6</code></pre><h2 id="二、简单使用"><a href="#二、简单使用" class="headerlink" title="二、简单使用"></a>二、简单使用</h2><pre><code>var webUrl =&quot;http://192.168.10.120:8081/test.html?time=${DateTime.now()};
-return Scaffold(
-    appBar: AppBar(title: Text(&apos;WebView&apos;)),
-    body: Builder(builder: (BuildContext context) {
-      return WebView(
-        initialUrl: webUrl,
-        onWebViewCreated: (WebViewController controller) {
-          _controller = controller;
-        },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-      );
-    }));
-    }</code></pre><h2 id="三、Js-调用Flutter-两种方法"><a href="#三、Js-调用Flutter-两种方法" class="headerlink" title="三、Js 调用Flutter(两种方法)"></a>三、Js 调用Flutter(两种方法)</h2><h4 id="方法一、使用javascriptChannels发送消息"><a href="#方法一、使用javascriptChannels发送消息" class="headerlink" title="方法一、使用javascriptChannels发送消息"></a>方法一、使用javascriptChannels发送消息</h4><ul>
-<li><p>Flutter代码</p>
-</li>
-<li><p>定义javascriptChannels JavascriptChannel方法中的两个参数，name是和js协商的标记，onMessageReceived当js收到Flutter发送的消息时的回调</p>
-<pre><code>JavascriptChannel _alertJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-            name: &apos;MyApp&apos;,
-            onMessageReceived: (JavascriptMessage message) {
-            //js 收到了Flutter发送的消息
-            showToast(message.message);
-          });
-    }
-
-WebView(
-javascriptChannels: &lt;JavascriptChannel&gt;[
-    _alertJavascriptChannel(context),
-].toSet(),</code></pre></li>
-<li><p>js代码</p>
-<pre><code>&lt;button onclick=&quot;callFlutter()&quot;&gt;callFlutter&lt;/button&gt;
-    function callFlutter(){
-    // MyApp为Flutter定义的name
-    MyApp.postMessage(&quot;JS调用了Flutter&quot;);
-}</code></pre></li>
-</ul>
-<h4 id="方法二、使用路由委托navigationDelegate拦截url"><a href="#方法二、使用路由委托navigationDelegate拦截url" class="headerlink" title="方法二、使用路由委托navigationDelegate拦截url"></a>方法二、使用路由委托navigationDelegate拦截url</h4><ul>
-<li><p>Flutter代码<br>在Flutter端，我们就可以在navigationDelegate回调中拦截这个符合js://webviewscheme的路由地址了：</p>
-<pre><code>navigationDelegate: (NavigationRequest request) {
-    if (request.url.startsWith(&apos;js://html&apos;)) {
-      showToast(&apos;JS调用了Flutter By navigationDelegate&apos;);
-      print(&apos;blocking navigation to $request}&apos;);
-      return NavigationDecision.prevent;  //阻止路由替换
-    }
-    print(&apos;allowing navigation to $request&apos;);
-    return NavigationDecision.navigate; //允许路由替换
-  },</code></pre></li>
-<li><p>js代码</p>
-<pre><code>&lt;button onclick=&quot;callFlutter()&quot;&gt;callFlutter&lt;/button&gt;
-function callFlutter(){
-var url = &quot;js://html?params1=111&amp;params2=222&quot;
-//url 为两端定义的协议
-document.location = url;
-}</code></pre><h2 id="四、Flutter-调用JS"><a href="#四、Flutter-调用JS" class="headerlink" title="四、Flutter 调用JS"></a>四、Flutter 调用JS</h2></li>
-<li><p>在实际开发中免不了和js的数据交互，例如js需要拿到app登录的用户信息，这时候我们在Flutter端收到请求以后，可以通过拿到一个WebViewController，通过它的evaluateJavascript()方法，然后将我们的用户信息传递给js，具体代码如下：</p>
-</li>
-<li><p>Flutter 代码</p>
-<pre><code>onWebViewCreated: (WebViewController webViewController) {
-_controller = webViewController;
-},
-JavascriptChannel _alertJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-            name: &apos;MyApp&apos;,
-            onMessageReceived: (JavascriptMessage message) {
-            showToast(message.message);
-            // js 告诉Flutter需要获取用户信息
-            if(message.messageType == &quot;getUserInfo&quot;){
-                //Flutter把用户信息传递到js
-                var userInfo = User(&quot;username&quot;,&quot;token&quot;);
-                String userString = json.encode(userInfo);
-                controller
-                ?.evaluateJavascript(&apos;getUserInfo($userString)&apos;)
-                ?.then((result) {
-
-                });
-                }
-          });
-    }</code></pre></li>
-<li><p>js 代码</p>
-<pre><code>&lt;button onclick=&quot;callFlutter()&quot;&gt;获取用户信息&lt;/button&gt;
-&lt;script&gt;
-    function callFlutter() {
-        // 我需要用户信息
-        var str = navigator.userAgent;
-        if (str.includes(&apos;MyApp&apos;)) { // 此处为Flutter端JavascriptChannel定义的name
-            MyApp.postMessage(JSON.stringify({ method: &quot;getUserInfo&quot; }));
-        } else {
-            $(&apos;body&apos;).html(&apos;&lt;p&gt;hello world&lt;/p&gt;&apos;);
-        }
-    }
-
-    function getUserInfo(message) {
-        var data = JSON.parse(JSON.stringify(message)) //注意此处json的解析方式
-        document.getElementById(&quot;p1&quot;).textContent = data.userUid;
-        document.getElementById(&quot;p2&quot;).textContent = data.username;
-        document.getElementById(&quot;p3&quot;).textContent = data.userType;
-        document.getElementById(&quot;p4&quot;).textContent = data.realName;
-    }
-&lt;/script&gt;</code></pre><h2 id="五、补充"><a href="#五、补充" class="headerlink" title="五、补充"></a>五、补充</h2></li>
-<li><p>在实际项目中，我们需要和js开发者定义交互的数据结构，例如：</p>
-<pre><code>class JsBridgeModel {
-    int type; //类型 例如 打开微信、获取用户信息等
-    String message;
-    var data;
+                <h3 id="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"><a href="#相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分" class="headerlink" title="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"></a>相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分</h3><h4 id="1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"><a href="#1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法" class="headerlink" title="1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"></a>1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法</h4><pre><code>@Override
+public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
+final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
+channel.setMethodCallHandler(new FlutterWxPlugin());
+}
+@Override
+public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}</code></pre><h4 id="2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样"><a href="#2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样" class="headerlink" title="2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)"></a>2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)</h4><pre><code>@Override
+public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+Log.d(TAG, &quot;onMethodCall:&quot; + activity);
+Toast.makeText(activity, &quot;TestActivity&quot;, Toast.LENGTH_SHORT).show();
+if (call.method.equals(&quot;getPlatformVersion&quot;)) {
+    result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);
+} else {
+    result.notImplemented();
+ }
+}</code></pre><h4 id="3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"><a href="#3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null" class="headerlink" title="3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"></a>3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null</h4><pre><code>@Override
+public void onAttachedToActivity(ActivityPluginBinding binding) {
+Log.d(TAG, &quot;onAttachedToActivity&quot;);
+this.activity = binding.getActivity();
 }
 
-JsBridgeModel(this.type,this.message,this.data);
-js端post发送消息的时候需要根据Flutter定义好的格式来
-XX.postMessage(JSON.stringify({ type: 1,message:&quot;&quot;,data:{} }))</code></pre><h2 id="五、总结："><a href="#五、总结：" class="headerlink" title="五、总结："></a>五、总结：</h2></li>
-<li><p>Flutter和js交互的方式基本就是这样，如果你还有需要补充的可以在下方留言。</p>
-</li>
-</ul>
+@Override
+public void onDetachedFromActivityForConfigChanges() {}
+
+@Override
+public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {}
+
+@Override
+public void onDetachedFromActivity() {}</code></pre><h4 id="4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this"><a href="#4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this" class="headerlink" title="4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);"></a>4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);</h4><pre><code> @Override
+public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
+final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
+channel.setMethodCallHandler(this);//修改此处为this
+}</code></pre><h4 id="5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"><a href="#5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。" class="headerlink" title="5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"></a>5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。</h4><p>参考(<a href="https://www.gitmemory.com/issue/flutter/flutter/48802/575876559" target="_blank" rel="noopener">https://www.gitmemory.com/issue/flutter/flutter/48802/575876559</a>)</p>
 
             </div>
             <hr/>
@@ -605,7 +523,7 @@ XX.postMessage(JSON.stringify({ type: 1,message:&quot;&quot;,data:{} }))</code><
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/01/hello-world/">http://www.bigshot.cool/2020/04/01/hello-world/</a>
+                    <a href="http://www.bigshot.cool/2020/04/02/flutter_1.12/">http://www.bigshot.cool/2020/04/02/flutter_1.12/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -806,9 +724,10 @@ XX.postMessage(JSON.stringify({ type: 1,message:&quot;&quot;,data:{} }))</code><
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/04/02/flutter_1.12/">
                     <div class="card-image">
@@ -827,9 +746,9 @@ public void on
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -838,6 +757,7 @@ public void on
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -845,7 +765,7 @@ public void on
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
                 <a href="/2020/04/01/hello-world/">
@@ -877,7 +797,6 @@ webview_flutte
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
