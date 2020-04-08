@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Flutter1.12升级后遇到的问题, Flutter">
+    <meta name="keywords" content="flutter1.12, Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Flutter1.12升级后遇到的问题 | Flutter</title>
+    <title>flutter1.12 | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Flutter1.12升级后遇到的问题</h1>
+                    <h1 class="description center-align post-title">flutter1.12</h1>
                 </div>
             </div>
         </div>
@@ -448,7 +448,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-04-02
+                    2020-04-08
                 </div>
                 
 
@@ -465,40 +465,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"><a href="#相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分" class="headerlink" title="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"></a>相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分</h3><h4 id="1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"><a href="#1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法" class="headerlink" title="1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"></a>1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法</h4><pre><code>@Override
-public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
-final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
-channel.setMethodCallHandler(new FlutterWxPlugin());
-}
-@Override
-public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}</code></pre><h4 id="2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样"><a href="#2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样" class="headerlink" title="2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)"></a>2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)</h4><pre><code>@Override
-public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-Log.d(TAG, &quot;onMethodCall:&quot; + activity);
-Toast.makeText(activity, &quot;TestActivity&quot;, Toast.LENGTH_SHORT).show();
-if (call.method.equals(&quot;getPlatformVersion&quot;)) {
-    result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);
-} else {
-    result.notImplemented();
- }
-}</code></pre><h4 id="3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"><a href="#3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null" class="headerlink" title="3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"></a>3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null</h4><pre><code>@Override
-public void onAttachedToActivity(ActivityPluginBinding binding) {
-Log.d(TAG, &quot;onAttachedToActivity&quot;);
-this.activity = binding.getActivity();
-}
-
-@Override
-public void onDetachedFromActivityForConfigChanges() {}
-
-@Override
-public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {}
-
-@Override
-public void onDetachedFromActivity() {}</code></pre><h4 id="4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this"><a href="#4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this" class="headerlink" title="4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);"></a>4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);</h4><pre><code> @Override
-public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
-final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
-channel.setMethodCallHandler(this);//修改此处为this
-}</code></pre><h4 id="5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"><a href="#5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。" class="headerlink" title="5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"></a>5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。</h4><p>参考(<a href="https://www.gitmemory.com/issue/flutter/flutter/48802/575876559" target="_blank" rel="noopener">https://www.gitmemory.com/issue/flutter/flutter/48802/575876559</a>)</p>
-
+                
             </div>
             <hr/>
 
@@ -523,7 +490,7 @@ channel.setMethodCallHandler(this);//修改此处为this
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/02/flutter_1.12/">http://www.bigshot.cool/2020/04/02/flutter_1.12/</a>
+                    <a href="http://www.bigshot.cool/2020/04/08/flutter1-12/">http://www.bigshot.cool/2020/04/08/flutter1-12/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -724,9 +691,10 @@ channel.setMethodCallHandler(this);//修改此处为this
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/04/08/flutter1-12/">
                     <div class="card-image">
@@ -744,9 +712,9 @@ channel.setMethodCallHandler(this);//修改此处为this
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -755,6 +723,7 @@ channel.setMethodCallHandler(this);//修改此处为this
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -765,26 +734,25 @@ channel.setMethodCallHandler(this);//修改此处为this
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/01/hello-world/">
+                <a href="/2020/04/02/flutter_1.12/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Flutter WebView 和JavaScript 交互">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter1.12升级后遇到的问题">
                         
-                        <span class="card-title">Flutter WebView 和JavaScript 交互</span>
+                        <span class="card-title">Flutter1.12升级后遇到的问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            flutter官方并没有提供WebView组件，不过官方的plugin库给我们提供了webview_flutter插件，集成到我们的项目中就可以使用了
-一、集成在项目的pubspec.yaml文件中添加一下代码
-webview_flutte
+                            相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法@Override
+public void on
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
                             </span>
                         <span class="publish-author">
                             
