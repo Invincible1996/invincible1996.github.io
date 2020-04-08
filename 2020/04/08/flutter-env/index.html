@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Flutter1.12版本升级遇坑, Flutter">
+    <meta name="keywords" content="Flutter环境搭建(Mac), Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Flutter1.12版本升级遇坑 | Flutter</title>
+    <title>Flutter环境搭建(Mac) | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -174,12 +174,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Flutter1.12版本升级遇坑</h1>
+                    <h1 class="description center-align post-title">Flutter环境搭建(Mac)</h1>
                 </div>
             </div>
         </div>
@@ -333,43 +333,39 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><ul>
-<li><p>flutter1.12版本SDK创建新项目的时候，Android项目会将继承的 FlutterActivity 从 io.flutter.app.FlutterActivity 替换为 io.flutter.embedding.android.FlutterActivity，AndroidManifest文件也会有一些改变</p>
-<pre><code>import io.flutter.embedding.android.FlutterActivity //更新的部分
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.plugins.GeneratedPluginRegistrant
-
-class MainActivity: FlutterActivity() {
-    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine);
-    }
-}
-
-//AndroidManifest文件的变化
- &lt;meta-data
-    android:name=&quot;flutterEmbedding&quot;
-    android:value=&quot;2&quot; /&gt;</code></pre></li>
-<li><p>在实际开发过程中会有这样的问题，TextField 在你已经输入的情况下，按下home按键返回桌面，再回到app时，输入框的内容会自动清除。如下图：</p>
-</li>
-</ul>
-<p><img src="https://user-gold-cdn.xitu.io/2020/4/8/17157c72d4916032?w=1080&h=1920&f=gif&s=1513189" alt=""></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
-<li><p>1、将MainActivity继承的FlutterActivity改为io.flutter.app.FlutterActivity</p>
-<pre><code>import android.os.Bundle
-import io.flutter.app.FlutterActivity //(修改之前为import io.flutter.embedding.android.FlutterActivity)
-import io.flutter.plugins.GeneratedPluginRegistrant
-
-class MainActivity : FlutterActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        GeneratedPluginRegistrant.registerWith(this);
-    }
-}</code></pre></li>
-<li><p>2、移除AndroidManifest.xml文件中的以下代码</p>
-<pre><code>&lt;meta-data
-     android:name=&quot;flutterEmbedding&quot;
-     android:value=&quot;2&quot; /&gt;</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
-<li><p>当然这么做的话，只是临时解决问题，并不是最优解，期待官方的下一个版本能修复这个问题。参考<a href="https://github.com/flutter/flutter/issues/47628#issuecomment-576889475" target="_blank" rel="noopener">https://github.com/flutter/flutter/issues/47628#issuecomment-576889475</a></p>
+                <ul>
+<li><p>.从github拉取代码：</p>
+<pre><code>git clone -b beta https://github.com/flutter/flutter.git</code></pre></li>
+<li><p>配置环境变量：</p>
+<pre><code>在当期用户目录下创建.bash_profile文件，如果该文件已经存在，    则直接打开。将以下代码复制到.bash_profile中，
+export PATH_TO_FLUTTER_GIT_DIRECTORY=/Users/你的用户名/flutterexport PATH=${PATH}:${PATH_TO_FLUTTER_GIT_DIRECTORY}/bin
+完成之后点击保存，在命令行中执行source  .bash_profile，然后输入flutter 进行测试。没有出现commond not found即是配置成功。</code></pre></li>
+<li><p>执行命令flutter doctor ，命令的作用是检测还需要安装的依赖。</p>
+<pre><code>[✓]Flutter(Channel beta,v0.1.5,on Mac OS X 10.13.3 17D102,locale zh-Hans-CN)
+[✓]Android toolchain - develop for Android devices(Android SDK 27.0.3)
+[!]iOS toolchain - develop for iOS devices(Xcode 9.2)  //ios环境
+✗ libimobiledevice and ideviceinstaller are not installed. To install, run:
+brew install --HEAD libimobiledevice
+brew install ideviceinstaller
+✗ ios-deploy not installed. To install:
+brew install ios-deploy
+[✓]Android Studio(version 3.0) //  表示android 环境已经搭建好
+[!]IntelliJ IDEA Ultimate Edition(version 2017.3.1)
+✗ Flutter plugin not installed; this adds Flutter specific functionality. //IDEA 未安装flutter插件
+✗ Dart plugin not installed; this adds Dart specific functionality. //IDEA Dart插件
+[✓]VS Code(version 1.21.0)  //  编辑器插件检测
+[!]Connected devices // 连接的设备
+! No devices available  //  当前无可用的设备</code></pre></li>
+<li><p>所有的依赖安装完成以后  会有如下的提示</p>
+<pre><code>Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel beta, v0.1.5, on Mac OS X 10.13.3 17D102, locale zh-Hans-CN)
+[✓] Android toolchain - develop for Android devices (Android SDK 27.0.3)
+[✓] iOS toolchain - develop for iOS devices (Xcode 9.2)
+[✓] Android Studio (version 3.0)
+[✓] IntelliJ IDEA Ultimate Edition (version 2017.3.1)
+[✓] VS Code (version 1.21.0)
+[✓] Connected devices (1 available)</code></pre></li>
+<li><p>这个时候的 你的环境配置就算是完成了。(因为本人之前是做ReactNtive开发的，所以已经安装好了一些其他的环境，例如AndroidStudio，Xcode等)</p>
 </li>
 </ul>
 
@@ -397,7 +393,7 @@ class MainActivity : FlutterActivity() {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/08/flutter1-12/">http://www.bigshot.cool/2020/04/08/flutter1-12/</a>
+                    <a href="http://www.bigshot.cool/2020/04/08/flutter-env/">http://www.bigshot.cool/2020/04/08/flutter-env/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -473,9 +469,10 @@ class MainActivity : FlutterActivity() {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/08/flutter-env/">
                     <div class="card-image">
@@ -497,9 +494,9 @@ git clone -b beta https://github.com/flutter/flutter.git
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -508,6 +505,7 @@ git clone -b beta https://github.com/flutter/flutter.git
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -518,27 +516,25 @@ git clone -b beta https://github.com/flutter/flutter.git
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/02/flutter_1.12/">
+                <a href="/2020/04/08/flutter1-12/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter1.12升级后遇到的问题">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Flutter1.12版本升级遇坑">
                         
-                        <span class="card-title">Flutter1.12升级后遇到的问题</span>
+                        <span class="card-title">Flutter1.12版本升级遇坑</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分
-1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法
-@Override
-public void 
+                            遇到问题
+flutter1.12版本SDK创建新项目的时候，Android项目会将继承的 FlutterActivity 从 io.flutter.app.FlutterActivity 替换为 io.flutter.embedding.a
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
                             </span>
                         <span class="publish-author">
                             
