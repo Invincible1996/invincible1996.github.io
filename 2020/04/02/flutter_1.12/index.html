@@ -465,25 +465,32 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"><a href="#相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分" class="headerlink" title="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"></a>相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分</h3><h4 id="1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"><a href="#1-自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法" class="headerlink" title="1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法"></a>1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法</h4><pre><code>@Override
+                <h3 id="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"><a href="#相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分" class="headerlink" title="相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分"></a>相信看过官方更新日志的小伙伴都知道新版本的flutter和Android原生交互有一些改变，主要在以下部分</h3><ul>
+<li><p>1.自定义的Plugin类需要实现FlutterPlugin的接口，并实现以下两个方法</p>
+<pre><code>@Override
 public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
-final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
-channel.setMethodCallHandler(new FlutterWxPlugin());
+    final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
+    channel.setMethodCallHandler(new FlutterWxPlugin());
 }
+
 @Override
-public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}</code></pre><h4 id="2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样"><a href="#2-获取Flutter传递过来的数据-方法名-需要实现MethodCallHandler-和之前版本的一样" class="headerlink" title="2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)"></a>2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)</h4><pre><code>@Override
+public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}</code></pre></li>
+<li><p>2.获取Flutter传递过来的数据(方法名)需要实现MethodCallHandler(和之前版本的一样)</p>
+<pre><code>@Override
 public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-Log.d(TAG, &quot;onMethodCall:&quot; + activity);
-Toast.makeText(activity, &quot;TestActivity&quot;, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, &quot;onMethodCall:&quot; + activity);
+        Toast.makeText(activity, &quot;TestActivity&quot;, Toast.LENGTH_SHORT).show();
 if (call.method.equals(&quot;getPlatformVersion&quot;)) {
-    result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);
-} else {
-    result.notImplemented();
- }
-}</code></pre><h4 id="3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"><a href="#3-现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding-getActivity-获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null" class="headerlink" title="3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null"></a>3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null</h4><pre><code>@Override
+        result.success(&quot;Android &quot; + android.os.Build.VERSION.RELEASE);
+    } else {
+        result.notImplemented();
+    }
+}</code></pre></li>
+<li><p>3.现在有一个需求就是需要在onMethodCall方法中获取activity对象，新版本给我们提供了新的接口让我更好的来处理Plugin和Activity的一些交互，所以我们实现ActivityAware这个接口，重写下面的方法，在onAttachedToActivity中我们可以通过binding.getActivity()获取当前的activity对象，然后赋给我们定义的全局变量，这个时候问题来了，我们在onMethodCall方法中得到的activity的值始终为null</p>
+<pre><code>@Override
 public void onAttachedToActivity(ActivityPluginBinding binding) {
-Log.d(TAG, &quot;onAttachedToActivity&quot;);
-this.activity = binding.getActivity();
+    Log.d(TAG, &quot;onAttachedToActivity&quot;);
+    this.activity = binding.getActivity();
 }
 
 @Override
@@ -493,11 +500,16 @@ public void onDetachedFromActivityForConfigChanges() {}
 public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {}
 
 @Override
-public void onDetachedFromActivity() {}</code></pre><h4 id="4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this"><a href="#4-解决方法，修改-onAttachedToEngine方法中的channel-setMethodCallHandler-new-FlutterWxPlugin-为-channel-setMethodCallHandler-this" class="headerlink" title="4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);"></a>4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);</h4><pre><code> @Override
+public void onDetachedFromActivity() {}</code></pre></li>
+<li><p>4.解决方法，修改 onAttachedToEngine方法中的channel.setMethodCallHandler(new FlutterWxPlugin())为 channel.setMethodCallHandler(this);</p>
+<pre><code>@Override
 public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) { //注册，等同于原来的registerWith
-final MethodChannel channel = new  MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
-channel.setMethodCallHandler(this);//修改此处为this
-}</code></pre><h4 id="5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"><a href="#5-总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。" class="headerlink" title="5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。"></a>5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。</h4><p>参考(<a href="https://www.gitmemory.com/issue/flutter/flutter/48802/575876559" target="_blank" rel="noopener">https://www.gitmemory.com/issue/flutter/flutter/48802/575876559</a>)</p>
+final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), &quot;flutter_wx&quot;);
+    channel.setMethodCallHandler(this);//修改此处为this
+}</code></pre></li>
+<li><p>5.总结，具体问题的原因还没有细研究，当Plugin初始化的时候复写的方法会执行两次。期待官方的解决办法。<br>参考(<a href="https://www.gitmemory.com/issue/flutter/flutter/48802/575876559" target="_blank" rel="noopener">https://www.gitmemory.com/issue/flutter/flutter/48802/575876559</a>)</p>
+</li>
+</ul>
 
             </div>
             <hr/>
@@ -732,15 +744,16 @@ channel.setMethodCallHandler(this);//修改此处为this
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="flutter1.12">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Flutter1.12版本升级遇坑">
                         
-                        <span class="card-title">flutter1.12</span>
+                        <span class="card-title">Flutter1.12版本升级遇坑</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            遇到问题
+flutter1.12版本SDK创建新项目的时候，Android项目会将继承的 FlutterActivity 从 io.flutter.app.FlutterActivity 替换为 io.flutter.embedding.a
                         
                     </div>
                     <div class="publish-info">
