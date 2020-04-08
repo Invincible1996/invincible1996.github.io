@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Flutter环境搭建(Mac), Flutter">
+    <meta name="keywords" content="Flutter RaiseButton 使用介绍, Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Flutter环境搭建(Mac) | Flutter</title>
+    <title>Flutter RaiseButton 使用介绍 | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -174,12 +174,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Flutter环境搭建(Mac)</h1>
+                    <h1 class="description center-align post-title">Flutter RaiseButton 使用介绍</h1>
                 </div>
             </div>
         </div>
@@ -333,42 +333,29 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ul>
-<li><p>.从github拉取代码：</p>
-<pre><code>git clone -b beta https://github.com/flutter/flutter.git</code></pre></li>
-<li><p>配置环境变量：</p>
-<pre><code>在当期用户目录下创建.bash_profile文件，如果该文件已经存在，    则直接打开。将以下代码复制到.bash_profile中，
-export PATH_TO_FLUTTER_GIT_DIRECTORY=/Users/你的用户名/flutterexport PATH=${PATH}:${PATH_TO_FLUTTER_GIT_DIRECTORY}/bin
-完成之后点击保存，在命令行中执行source  .bash_profile，然后输入flutter 进行测试。没有出现commond not found即是配置成功。</code></pre></li>
-<li><p>执行命令flutter doctor ，命令的作用是检测还需要安装的依赖。</p>
-<pre><code>[✓]Flutter(Channel beta,v0.1.5,on Mac OS X 10.13.3 17D102,locale zh-Hans-CN)
-[✓]Android toolchain - develop for Android devices(Android SDK 27.0.3)
-[!]iOS toolchain - develop for iOS devices(Xcode 9.2)  //ios环境
-✗ libimobiledevice and ideviceinstaller are not installed. To install, run:
-brew install --HEAD libimobiledevice
-brew install ideviceinstaller
-✗ ios-deploy not installed. To install:
-brew install ios-deploy
-[✓]Android Studio(version 3.0) //  表示android 环境已经搭建好
-[!]IntelliJ IDEA Ultimate Edition(version 2017.3.1)
-✗ Flutter plugin not installed; this adds Flutter specific functionality. //IDEA 未安装flutter插件
-✗ Dart plugin not installed; this adds Dart specific functionality. //IDEA Dart插件
-[✓]VS Code(version 1.21.0)  //  编辑器插件检测
-[!]Connected devices // 连接的设备
-! No devices available  //  当前无可用的设备</code></pre></li>
-<li><p>所有的依赖安装完成以后  会有如下的提示</p>
-<pre><code>Doctor summary (to see all details, run flutter doctor -v):
-[✓] Flutter (Channel beta, v0.1.5, on Mac OS X 10.13.3 17D102, locale zh-Hans-CN)
-[✓] Android toolchain - develop for Android devices (Android SDK 27.0.3)
-[✓] iOS toolchain - develop for iOS devices (Xcode 9.2)
-[✓] Android Studio (version 3.0)
-[✓] IntelliJ IDEA Ultimate Edition (version 2017.3.1)
-[✓] VS Code (version 1.21.0)
-[✓] Connected devices (1 available)</code></pre></li>
-<li><p>这个时候的 你的环境配置就算是完成了。(因为本人之前是做ReactNtive开发的，所以已经安装好了一些其他的环境，例如AndroidStudio，Xcode等)</p>
-</li>
-</ul>
-
+                <h3 id="一、常用属性"><a href="#一、常用属性" class="headerlink" title="一、常用属性"></a>一、常用属性</h3><pre><code>color:按钮可点击时的颜色
+disabledColor: 按钮不可点击时的颜色
+disabledColorTextColor:按钮不可点击时文字的颜色
+textColor:按钮可点击时文字的颜色
+shape:按钮的样式
+    RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)))（圆角矩形）
+    StadiumBorder()（两边都是半圆）
+    CircleBorder(
+        side: BorderSide(
+            color: Colors.white)) （圆形）
+elevation:阴影(一般不设置，使用默认的即可)
+onPressed:点击事件
+onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="#二、简单使用" class="headerlink" title="二、简单使用"></a>二、简单使用</h3><pre><code>RaisedButton(
+    onPressed: () {},
+    shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.all(Radius.circular(5))),
+    color: Colors.red,
+    child: Container(
+           height: 48,
+           alignment: Alignment.center,
+           width: MediaQuery.of(context).size.width * .8,
+           child: Text(Strings.exit, style: CustomStyles.exitTextStyle)))</code></pre>
             </div>
             <hr/>
 
@@ -393,7 +380,7 @@ brew install ios-deploy
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/08/flutter-env/">http://www.bigshot.cool/2020/04/08/flutter-env/</a>
+                    <a href="http://www.bigshot.cool/2020/04/08/flutter-button/">http://www.bigshot.cool/2020/04/08/flutter-button/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -469,9 +456,10 @@ brew install ios-deploy
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/08/flutter-button/">
                     <div class="card-image">
@@ -494,9 +482,9 @@ shape:按钮的样式
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -505,6 +493,7 @@ shape:按钮的样式
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -515,20 +504,23 @@ shape:按钮的样式
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/08/flutter1-12/">
+                <a href="/2020/04/08/flutter-env/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Flutter1.12版本升级遇坑">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Flutter环境搭建(Mac)">
                         
-                        <span class="card-title">Flutter1.12版本升级遇坑</span>
+                        <span class="card-title">Flutter环境搭建(Mac)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            遇到问题
-flutter1.12版本SDK创建新项目的时候，Android项目会将继承的 FlutterActivity 从 io.flutter.app.FlutterActivity 替换为 io.flutter.embedding.a
+                            
+.从github拉取代码：
+git clone -b beta https://github.com/flutter/flutter.git
+配置环境变量：
+在当期用户目录下创建.bash_profile文件，如果该文件已经存在，    
                         
                     </div>
                     <div class="publish-info">
