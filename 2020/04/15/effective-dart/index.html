@@ -334,35 +334,63 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="一、命名规范"><a href="#一、命名规范" class="headerlink" title="一、命名规范"></a>一、命名规范</h2><p>1、类名，枚举，类型定义，类型参数采用首字母大写的驼峰式命名方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class SliderMenu &#123; ... &#125;</span><br><span class="line">class HttpRequest &#123; ... &#125;</span><br><span class="line">typedef Predicate&lt;T&gt; &#x3D; bool Function(T value);</span><br></pre></td></tr></table></figure>
-<p>2、扩展函数(extension-method)同样采用首字母大写的驼峰式命名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extension MyFancyList&lt;T&gt; on List&lt;T&gt; &#123; ... &#125;</span><br><span class="line">extension SmartIterable&lt;T&gt; on Iterable&lt;T&gt; &#123; ... &#125;</span><br></pre></td></tr></table></figure>
-<p>3、库名(libraries)、包名(packages)、文件夹(directories)、资源文件(source)、文件名(file)采用小写字母命名，当字母数量大于一个的时候使用下划线分割</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library peg_parser.source_scanner;</span><br><span class="line">import &#39;file_system.dart&#39;;</span><br><span class="line">import &#39;slider_menu.dart&#39;;</span><br></pre></td></tr></table></figure>
-<p>4、在使用import as，引用名采用下小写+下划线</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#39;dart:math&#39; as math;</span><br><span class="line">import &#39;package:angular_components&#x2F;angular_components&#39;  as angular_components;</span><br><span class="line">import &#39;package:js&#x2F;js.dart&#39; as js;</span><br></pre></td></tr></table></figure>
-<p>5、变量定义采用首字母小写的驼峰式命名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var item;</span><br><span class="line">HttpRequest httpRequest;</span><br><span class="line">void align(bool clearItems) &#123;</span><br><span class="line"> &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>6、常量定义采用首字母小写的驼峰式命名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const pi &#x3D; 3.14;</span><br><span class="line">const defaultTimeout &#x3D; 1000;</span><br><span class="line">final urlScheme &#x3D; RegExp(&#39;^([a-z]+):&#39;);</span><br><span class="line">class Dice &#123;</span><br><span class="line"> static final numberGenerator &#x3D; Random();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>7、相关具有特殊意义的命名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">good:</span><br><span class="line">    HttpConnectionInfo</span><br><span class="line">    uiHandler</span><br><span class="line">    IOStream</span><br><span class="line">    HttpRequest</span><br><span class="line">    Id</span><br><span class="line">    DB</span><br><span class="line">bad:</span><br><span class="line">    HTTPConnection</span><br><span class="line">    UiHandler</span><br><span class="line">    IoStream</span><br><span class="line">    HTTPRequest</span><br><span class="line">    ID</span><br><span class="line">    Db</span><br></pre></td></tr></table></figure>
-<p>8、定义变量名不要使用字母作为前缀</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">good:</span><br><span class="line">    defaultTimeout</span><br><span class="line">bad:</span><br><span class="line">    kDefaultTimeout</span><br></pre></td></tr></table></figure>
-<h2 id="二、头文件引入的顺序-import"><a href="#二、头文件引入的顺序-import" class="headerlink" title="二、头文件引入的顺序(import)"></a>二、头文件引入的顺序(import)</h2><p>1、dart相关的放在最上面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line">import &#39;util.dart&#39;;</span><br></pre></td></tr></table></figure>
-<p>2、外部引入的包放在最前面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line"></span><br><span class="line">import &#39;package:my_package&#x2F;util.dart&#39;;</span><br></pre></td></tr></table></figure>
-<p>3、import和export采用空行分割</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#39;src&#x2F;error.dart&#39;;</span><br><span class="line">import &#39;src&#x2F;foo_bar.dart&#39;;</span><br><span class="line">  </span><br><span class="line">export &#39;src&#x2F;error.dart&#39;;</span><br></pre></td></tr></table></figure>
-<p>4、引入按字母排序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line"></span><br><span class="line">import &#39;foo.dart&#39;;</span><br><span class="line">import &#39;foo&#x2F;foo.dart&#39;;</span><br></pre></td></tr></table></figure>
-<h2 id="三、代码的格式化"><a href="#三、代码的格式化" class="headerlink" title="三、代码的格式化"></a>三、代码的格式化</h2><p>1、</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line">2、</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3、</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5、</span><br></pre></td></tr></table></figure>
-<pre><code></code></pre>
+<pre><code>class SliderMenu { ... }
+class HttpRequest { ... }
+typedef Predicate&lt;T&gt; = bool Function(T value);</code></pre><p>2、扩展函数(extension-method)同样采用首字母大写的驼峰式命名</p>
+<pre><code>extension MyFancyList&lt;T&gt; on List&lt;T&gt; { ... }
+extension SmartIterable&lt;T&gt; on Iterable&lt;T&gt; { ... }</code></pre><p>3、库名(libraries)、包名(packages)、文件夹(directories)、资源文件(source)、文件名(file)采用小写字母命名，当字母数量大于一个的时候使用下划线分割</p>
+<pre><code>library peg_parser.source_scanner;
+import &apos;file_system.dart&apos;;
+import &apos;slider_menu.dart&apos;;</code></pre><p>4、在使用import as，引用名采用下小写+下划线</p>
+<pre><code>import &apos;dart:math&apos; as math;
+import &apos;package:angular_components/angular_components&apos;  as angular_components;
+import &apos;package:js/js.dart&apos; as js;</code></pre><p>5、变量定义采用首字母小写的驼峰式命名</p>
+<pre><code>var item;
+HttpRequest httpRequest;
+void align(bool clearItems) {
+// ...
+}</code></pre><p>6、常量定义采用首字母小写的驼峰式命名</p>
+<pre><code>const pi = 3.14;
+const defaultTimeout = 1000;
+final urlScheme = RegExp(&apos;^([a-z]+):&apos;);
+class Dice {
+static final numberGenerator = Random();
+}</code></pre><p>7、相关具有特殊意义的命名</p>
+<pre><code>good:
+    HttpConnectionInfo
+    uiHandler
+    IOStream
+    HttpRequest
+    Id
+    DB
+bad:
+    HTTPConnection
+    UiHandler
+    IoStream
+    HTTPRequest
+    ID
+    Db</code></pre><p>8、定义变量名不要使用字母作为前缀</p>
+<pre><code>good:
+    defaultTimeout
+bad:
+    kDefaultTimeout</code></pre><h2 id="二、头文件引入的顺序-import"><a href="#二、头文件引入的顺序-import" class="headerlink" title="二、头文件引入的顺序(import)"></a>二、头文件引入的顺序(import)</h2><p>1、dart相关的放在最上面</p>
+<pre><code>import &apos;package:bar/bar.dart&apos;;
+import &apos;package:foo/foo.dart&apos;;
+import &apos;util.dart&apos;;</code></pre><p>2、外部引入的包放在最前面</p>
+<pre><code>import &apos;package:bar/bar.dart&apos;;
+import &apos;package:foo/foo.dart&apos;;
+
+import &apos;package:my_package/util.dart&apos;;</code></pre><p>3、import和export采用空行分割</p>
+<pre><code>import &apos;src/error.dart&apos;;
+import &apos;src/foo_bar.dart&apos;;
+
+export &apos;src/error.dart&apos;;</code></pre><p>4、引入按字母排序</p>
+<pre><code>import &apos;package:bar/bar.dart&apos;;
+import &apos;package:foo/foo.dart&apos;;
+
+import &apos;foo.dart&apos;;
+import &apos;foo/foo.dart&apos;;</code></pre><h2 id="三、代码的格式化"><a href="#三、代码的格式化" class="headerlink" title="三、代码的格式化"></a>三、代码的格式化</h2><p> 未完待续。。。</p>
+
             </div>
             <hr/>
 
@@ -481,7 +509,9 @@
                     <div class="summary block-with-text">
                         
                             一、命名规范1、类名，枚举，类型定义，类型参数采用首字母大写的驼峰式命名方式
-123class SliderMenu &#123; ... &#125;class HttpRequest &#123; ... &#125;typedef P
+class SliderMenu { ... }
+class HttpRequest { ... }
+typedef Predicate&lt;T&gt; = b
                         
                     </div>
                     <div class="publish-info">
