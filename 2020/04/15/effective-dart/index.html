@@ -391,14 +391,20 @@ import &apos;package:foo/foo.dart&apos;;
 import &apos;foo.dart&apos;;
 import &apos;foo/foo.dart&apos;;</code></pre><h2 id="三、编码规范"><a href="#三、编码规范" class="headerlink" title="三、编码规范"></a>三、编码规范</h2><p>1、字符串操作规范</p>
 <pre><code>good:
+    //字符串拼接使用换行符
     print(
     &apos;ERROR: Parts of the spaceship are on fire. Other &apos;
     &apos;parts are overrun by martians. Unclear which are which.&apos;);
 
+    //字符串拼接时取值使用$
+    &apos;Hello, $name! You are ${year - birth} years old.&apos;;
+
 bad:
     print(
     &apos;ERROR: Parts of the spaceship are on fire. Other &apos;+
-    &apos;parts are overrun by martians. Unclear which are which.&apos;);</code></pre><p>2、集合操作规范(List,Map)</p>
+    &apos;parts are overrun by martians. Unclear which are which.&apos;);
+
+    &apos;Hello, &apos; + name + &apos;! You are &apos; + (year - birth).toString() + &apos; y...&apos;;</code></pre><p>2、集合操作规范(List,Map)</p>
 <pre><code>good:
     //一般集合定义
     var points = [];
@@ -425,6 +431,7 @@ bad:
     if (lunchBox.length == 0) return &apos;so hungry...&apos;;
     if (!words.isEmpty) return words.join(&apos; &apos;);</code></pre><p>3、类成员变量的定义规范</p>
 <pre><code>good:
+    //不写多余的get,set函数
     class Box {
     var contents;
     }
@@ -450,8 +457,23 @@ bad:
         this.x = x;
         this.y = y;
         }
-    }</code></pre><p>5、</p>
+    }</code></pre><p>5、异常处理</p>
+<pre><code>good:
+    //使用 rethrow 重新抛出异常
+    try {
+      somethingRisky();
+    } catch (e) {
+      if (!canHandle(e)) rethrow;
+      handle(e);
+    }
 
+bad:
+    try {
+      somethingRisky();
+    } catch (e) {
+      if (!canHandle(e)) throw e;
+      handle(e);
+    }</code></pre>
             </div>
             <hr/>
 
