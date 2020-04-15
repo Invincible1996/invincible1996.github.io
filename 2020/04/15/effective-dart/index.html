@@ -389,7 +389,68 @@ export &apos;src/error.dart&apos;;</code></pre><p>4、引入按字母排序</p>
 import &apos;package:foo/foo.dart&apos;;
 
 import &apos;foo.dart&apos;;
-import &apos;foo/foo.dart&apos;;</code></pre><h2 id="三、代码的格式化"><a href="#三、代码的格式化" class="headerlink" title="三、代码的格式化"></a>三、代码的格式化</h2><p> 未完待续。。。</p>
+import &apos;foo/foo.dart&apos;;</code></pre><h2 id="三、编码规范"><a href="#三、编码规范" class="headerlink" title="三、编码规范"></a>三、编码规范</h2><p>1、字符串操作规范</p>
+<pre><code>good:
+    print(
+    &apos;ERROR: Parts of the spaceship are on fire. Other &apos;
+    &apos;parts are overrun by martians. Unclear which are which.&apos;);
+
+bad:
+    print(
+    &apos;ERROR: Parts of the spaceship are on fire. Other &apos;+
+    &apos;parts are overrun by martians. Unclear which are which.&apos;);</code></pre><p>2、集合操作规范(List,Map)</p>
+<pre><code>good:
+    //一般集合定义
+    var points = [];
+    var addresses = {};
+
+    //指定类型集合的定义
+    var points = &lt;Point&gt;[];
+    var addresses = &lt;String, Address&gt;{};
+
+    //集合判空(不要通过.legnth来判断集合是否为空)
+    if (lunchBox.isEmpty) return &apos;so hungry...&apos;;
+    if (words.isNotEmpty) return words.join(&apos; &apos;);
+
+bad:
+    //一般集合定义
+    var points = List();
+    var addresses = Map();
+
+    //指定类型集合的定义
+    var points = List&lt;Point&gt;();
+    var addresses = Map&lt;String, Address&gt;();
+
+    //集合判空
+    if (lunchBox.length == 0) return &apos;so hungry...&apos;;
+    if (!words.isEmpty) return words.join(&apos; &apos;);</code></pre><p>3、类成员变量的定义规范</p>
+<pre><code>good:
+    class Box {
+    var contents;
+    }
+
+bad:
+    class Box {
+        var _contents;
+        get contents =&gt; _contents;
+        set contents(value) {
+        _contents = value;
+        }
+    }</code></pre><p>4、构造函数</p>
+<pre><code>good:
+    class Point {
+        num x, y;
+    Point(this.x, this.y);
+    }
+
+bad:
+    class Point {
+        num x, y;
+    Point(num x, num y) {
+        this.x = x;
+        this.y = y;
+        }
+    }</code></pre><p>5、</p>
 
             </div>
             <hr/>
