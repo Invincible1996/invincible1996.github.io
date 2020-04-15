@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Flutter RaiseButton 使用介绍, Flutter">
+    <meta name="keywords" content="dart 规范, Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Flutter RaiseButton 使用介绍 | Flutter</title>
+    <title>dart 规范 | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -174,12 +174,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Flutter RaiseButton 使用介绍</h1>
+                    <h1 class="description center-align post-title">dart 规范</h1>
                 </div>
             </div>
         </div>
@@ -316,7 +316,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-08
+                    2020-04-15
                 </div>
                 
 
@@ -333,29 +333,36 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="一、常用属性"><a href="#一、常用属性" class="headerlink" title="一、常用属性"></a>一、常用属性</h3><pre><code>color:按钮可点击时的颜色
-disabledColor: 按钮不可点击时的颜色
-disabledColorTextColor:按钮不可点击时文字的颜色
-textColor:按钮可点击时文字的颜色
-shape:按钮的样式
-    RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5)))（圆角矩形）
-    StadiumBorder()（两边都是半圆）
-    CircleBorder(
-        side: BorderSide(
-            color: Colors.white)) （圆形）
-elevation:阴影(一般不设置，使用默认的即可)
-onPressed:点击事件
-onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="#二、简单使用" class="headerlink" title="二、简单使用"></a>二、简单使用</h3><pre><code>RaisedButton(
-    onPressed: () {},
-    shape: RoundedRectangleBorder(
-           borderRadius: BorderRadius.all(Radius.circular(5))),
-    color: Colors.red,
-    child: Container(
-           height: 48,
-           alignment: Alignment.center,
-           width: MediaQuery.of(context).size.width * .8,
-           child: Text(Strings.exit, style: CustomStyles.exitTextStyle)))</code></pre>
+                <h2 id="一、命名规范"><a href="#一、命名规范" class="headerlink" title="一、命名规范"></a>一、命名规范</h2><p>1、类名，枚举，类型定义，类型参数采用首字母大写的驼峰式命名方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class SliderMenu &#123; ... &#125;</span><br><span class="line">class HttpRequest &#123; ... &#125;</span><br><span class="line">typedef Predicate&lt;T&gt; &#x3D; bool Function(T value);</span><br></pre></td></tr></table></figure>
+<p>2、扩展函数(extension-method)同样采用首字母大写的驼峰式命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extension MyFancyList&lt;T&gt; on List&lt;T&gt; &#123; ... &#125;</span><br><span class="line">extension SmartIterable&lt;T&gt; on Iterable&lt;T&gt; &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>3、库名(libraries)、包名(packages)、文件夹(directories)、资源文件(source)、文件名(file)采用小写字母命名，当字母数量大于一个的时候使用下划线分割</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library peg_parser.source_scanner;</span><br><span class="line">import &#39;file_system.dart&#39;;</span><br><span class="line">import &#39;slider_menu.dart&#39;;</span><br></pre></td></tr></table></figure>
+<p>4、在使用import as，引用名采用下小写+下划线</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#39;dart:math&#39; as math;</span><br><span class="line">import &#39;package:angular_components&#x2F;angular_components&#39;  as angular_components;</span><br><span class="line">import &#39;package:js&#x2F;js.dart&#39; as js;</span><br></pre></td></tr></table></figure>
+<p>5、变量定义采用首字母小写的驼峰式命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var item;</span><br><span class="line">HttpRequest httpRequest;</span><br><span class="line">void align(bool clearItems) &#123;</span><br><span class="line"> &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6、常量定义采用首字母小写的驼峰式命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const pi &#x3D; 3.14;</span><br><span class="line">const defaultTimeout &#x3D; 1000;</span><br><span class="line">final urlScheme &#x3D; RegExp(&#39;^([a-z]+):&#39;);</span><br><span class="line">class Dice &#123;</span><br><span class="line"> static final numberGenerator &#x3D; Random();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7、相关具有特殊意义的命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">good:</span><br><span class="line">    HttpConnectionInfo</span><br><span class="line">    uiHandler</span><br><span class="line">    IOStream</span><br><span class="line">    HttpRequest</span><br><span class="line">    Id</span><br><span class="line">    DB</span><br><span class="line">bad:</span><br><span class="line">    HTTPConnection</span><br><span class="line">    UiHandler</span><br><span class="line">    IoStream</span><br><span class="line">    HTTPRequest</span><br><span class="line">    ID</span><br><span class="line">    Db</span><br></pre></td></tr></table></figure>
+<p>8、定义变量名不要使用字母作为前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">good:</span><br><span class="line">    defaultTimeout</span><br><span class="line">bad:</span><br><span class="line">    kDefaultTimeout</span><br></pre></td></tr></table></figure>
+<h2 id="二、头文件引入的顺序-import"><a href="#二、头文件引入的顺序-import" class="headerlink" title="二、头文件引入的顺序(import)"></a>二、头文件引入的顺序(import)</h2><p>1、dart相关的放在最上面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line">import &#39;util.dart&#39;;</span><br></pre></td></tr></table></figure>
+<p>2、外部引入的包放在最前面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line"></span><br><span class="line">import &#39;package:my_package&#x2F;util.dart&#39;;</span><br></pre></td></tr></table></figure>
+<p>3、import和export采用空行分割</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#39;src&#x2F;error.dart&#39;;</span><br><span class="line">import &#39;src&#x2F;foo_bar.dart&#39;;</span><br><span class="line">  </span><br><span class="line">export &#39;src&#x2F;error.dart&#39;;</span><br></pre></td></tr></table></figure>
+<p>4、引入按字母排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import &#39;package:bar&#x2F;bar.dart&#39;;</span><br><span class="line">import &#39;package:foo&#x2F;foo.dart&#39;;</span><br><span class="line"></span><br><span class="line">import &#39;foo.dart&#39;;</span><br><span class="line">import &#39;foo&#x2F;foo.dart&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="三、代码的格式化"><a href="#三、代码的格式化" class="headerlink" title="三、代码的格式化"></a>三、代码的格式化</h2><p>1、</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line">2、</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3、</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5、</span><br></pre></td></tr></table></figure>
+<pre><code></code></pre>
             </div>
             <hr/>
 
@@ -380,7 +387,7 @@ onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/08/flutter-button/">http://www.bigshot.cool/2020/04/08/flutter-button/</a>
+                    <a href="http://www.bigshot.cool/2020/04/15/effective-dart/">http://www.bigshot.cool/2020/04/15/effective-dart/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -456,9 +463,10 @@ onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/15/effective-dart/">
                     <div class="card-image">
@@ -477,9 +485,9 @@ onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -488,6 +496,7 @@ onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -498,23 +507,24 @@ onLongPress:长按点击事件</code></pre><h3 id="二、简单使用"><a href="
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/08/flutter-env/">
+                <a href="/2020/04/08/flutter-button/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Flutter环境搭建(Mac)">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter RaiseButton 使用介绍">
                         
-                        <span class="card-title">Flutter环境搭建(Mac)</span>
+                        <span class="card-title">Flutter RaiseButton 使用介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-.从github拉取代码：
-git clone -b beta https://github.com/flutter/flutter.git
-配置环境变量：
-在当期用户目录下创建.bash_profile文件，如果该文件已经存在，    
+                            一、常用属性color:按钮可点击时的颜色
+disabledColor: 按钮不可点击时的颜色
+disabledColorTextColor:按钮不可点击时文字的颜色
+textColor:按钮可点击时文字的颜色
+shape:按钮的样式
+  
                         
                     </div>
                     <div class="publish-info">
