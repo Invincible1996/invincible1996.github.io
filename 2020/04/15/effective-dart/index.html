@@ -418,6 +418,13 @@ bad:
     if (lunchBox.isEmpty) return &apos;so hungry...&apos;;
     if (words.isNotEmpty) return words.join(&apos; &apos;);
 
+    //避免使用cast来转换集合的类型
+    List&lt;int&gt; singletonList(int value) {
+      var list = &lt;int&gt;[];
+      list.add(value);
+      return list;
+    }
+
 bad:
     //一般集合定义
     var points = List();
@@ -429,7 +436,14 @@ bad:
 
     //集合判空
     if (lunchBox.length == 0) return &apos;so hungry...&apos;;
-    if (!words.isEmpty) return words.join(&apos; &apos;);</code></pre><p>3、类成员变量的定义规范</p>
+    if (!words.isEmpty) return words.join(&apos; &apos;);
+
+     //避免使用cast来转换集合的类型
+    List&lt;int&gt; singletonList(int value) {
+      var list = []; // List&lt;dynamic&gt;.
+      list.add(value);
+      return list.cast&lt;int&gt;();
+    }</code></pre><p>3、类成员变量的定义规范</p>
 <pre><code>good:
     //不写多余的get,set函数
     class Box {
@@ -457,7 +471,12 @@ bad:
         this.x = x;
         this.y = y;
         }
-    }</code></pre><p>5、异常处理</p>
+    }</code></pre><p>5、一般函数(function)</p>
+<pre><code>//代码逻辑简单，推荐使用=&gt;
+double get area =&gt; (right - left) * (bottom - top);
+bool isReady(num time) =&gt; minTime == null || minTime &lt;= time;
+String capitalize(String name) =&gt;
+    &apos;${name[0].toUpperCase()}${name.substring(1)}&apos;;</code></pre><p>6、异常处理</p>
 <pre><code>good:
     //使用 rethrow 重新抛出异常
     try {
