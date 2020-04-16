@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="dart编程规范, Flutter">
+    <meta name="keywords" content="Dart-Aqueduct开发后端, Flutter">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>dart编程规范 | Flutter</title>
+    <title>Dart-Aqueduct开发后端 | Flutter</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -174,12 +174,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">dart编程规范</h1>
+                    <h1 class="description center-align post-title">Dart-Aqueduct开发后端</h1>
                 </div>
             </div>
         </div>
@@ -316,7 +316,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-15
+                    2020-04-16
                 </div>
                 
 
@@ -333,166 +333,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、命名规范"><a href="#一、命名规范" class="headerlink" title="一、命名规范"></a>一、命名规范</h2><p>1、类名，枚举，类型定义，类型参数采用首字母大写的驼峰式命名方式</p>
-<pre><code>class SliderMenu { ... }
-class HttpRequest { ... }
-typedef Predicate&lt;T&gt; = bool Function(T value);</code></pre><p>2、扩展函数(extension-method)同样采用首字母大写的驼峰式命名</p>
-<pre><code>extension MyFancyList&lt;T&gt; on List&lt;T&gt; { ... }
-extension SmartIterable&lt;T&gt; on Iterable&lt;T&gt; { ... }</code></pre><p>3、库名(libraries)、包名(packages)、文件夹(directories)、资源文件(source)、文件名(file)采用小写字母命名，当字母数量大于一个的时候使用下划线分割</p>
-<pre><code>library peg_parser.source_scanner;
-import &apos;file_system.dart&apos;;
-import &apos;slider_menu.dart&apos;;</code></pre><p>4、在使用import as，引用名采用下小写+下划线</p>
-<pre><code>import &apos;dart:math&apos; as math;
-import &apos;package:angular_components/angular_components&apos;  as angular_components;
-import &apos;package:js/js.dart&apos; as js;</code></pre><p>5、变量定义采用首字母小写的驼峰式命名</p>
-<pre><code>var item;
-HttpRequest httpRequest;
-void align(bool clearItems) {
-// ...
-}</code></pre><p>6、常量定义采用首字母小写的驼峰式命名</p>
-<pre><code>const pi = 3.14;
-const defaultTimeout = 1000;
-final urlScheme = RegExp(&apos;^([a-z]+):&apos;);
-class Dice {
-static final numberGenerator = Random();
-}</code></pre><p>7、相关具有特殊意义的命名</p>
-<pre><code>good:
-    HttpConnectionInfo
-    uiHandler
-    IOStream
-    HttpRequest
-    Id
-    DB
-bad:
-    HTTPConnection
-    UiHandler
-    IoStream
-    HTTPRequest
-    ID
-    Db</code></pre><p>8、定义变量名不要使用字母作为前缀</p>
-<pre><code>good:
-    defaultTimeout
-bad:
-    kDefaultTimeout</code></pre><h2 id="二、头文件引入的顺序-import"><a href="#二、头文件引入的顺序-import" class="headerlink" title="二、头文件引入的顺序(import)"></a>二、头文件引入的顺序(import)</h2><p>1、dart相关的放在最上面</p>
-<pre><code>import &apos;package:bar/bar.dart&apos;;
-import &apos;package:foo/foo.dart&apos;;
-import &apos;util.dart&apos;;</code></pre><p>2、外部引入的包放在最前面</p>
-<pre><code>import &apos;package:bar/bar.dart&apos;;
-import &apos;package:foo/foo.dart&apos;;
-
-import &apos;package:my_package/util.dart&apos;;</code></pre><p>3、import和export采用空行分割</p>
-<pre><code>import &apos;src/error.dart&apos;;
-import &apos;src/foo_bar.dart&apos;;
-
-export &apos;src/error.dart&apos;;</code></pre><p>4、引入按字母排序</p>
-<pre><code>import &apos;package:bar/bar.dart&apos;;
-import &apos;package:foo/foo.dart&apos;;
-
-import &apos;foo.dart&apos;;
-import &apos;foo/foo.dart&apos;;</code></pre><h2 id="三、编码规范"><a href="#三、编码规范" class="headerlink" title="三、编码规范"></a>三、编码规范</h2><p>1、字符串操作规范</p>
-<pre><code>good:
-    //字符串拼接使用换行符
-    print(
-    &apos;ERROR: Parts of the spaceship are on fire. Other &apos;
-    &apos;parts are overrun by martians. Unclear which are which.&apos;);
-
-    //字符串拼接时取值使用$
-    &apos;Hello, $name! You are ${year - birth} years old.&apos;;
-
-bad:
-    print(
-    &apos;ERROR: Parts of the spaceship are on fire. Other &apos;+
-    &apos;parts are overrun by martians. Unclear which are which.&apos;);
-
-    &apos;Hello, &apos; + name + &apos;! You are &apos; + (year - birth).toString() + &apos; y...&apos;;</code></pre><p>2、集合操作规范(List,Map)</p>
-<pre><code>good:
-    //一般集合定义
-    var points = [];
-    var addresses = {};
-
-    //指定类型集合的定义
-    var points = &lt;Point&gt;[];
-    var addresses = &lt;String, Address&gt;{};
-
-    //集合判空(不要通过.legnth来判断集合是否为空)
-    if (lunchBox.isEmpty) return &apos;so hungry...&apos;;
-    if (words.isNotEmpty) return words.join(&apos; &apos;);
-
-    //避免使用cast来转换集合的类型
-    List&lt;int&gt; singletonList(int value) {
-      var list = &lt;int&gt;[];
-      list.add(value);
-      return list;
-    }
-
-bad:
-    //一般集合定义
-    var points = List();
-    var addresses = Map();
-
-    //指定类型集合的定义
-    var points = List&lt;Point&gt;();
-    var addresses = Map&lt;String, Address&gt;();
-
-    //集合判空
-    if (lunchBox.length == 0) return &apos;so hungry...&apos;;
-    if (!words.isEmpty) return words.join(&apos; &apos;);
-
-     //避免使用cast来转换集合的类型
-    List&lt;int&gt; singletonList(int value) {
-      var list = []; // List&lt;dynamic&gt;.
-      list.add(value);
-      return list.cast&lt;int&gt;();
-    }</code></pre><p>3、类成员变量的定义规范</p>
-<pre><code>good:
-    //不写多余的get,set函数
-    class Box {
-    var contents;
-    }
-
-bad:
-    class Box {
-        var _contents;
-        get contents =&gt; _contents;
-        set contents(value) {
-        _contents = value;
-        }
-    }</code></pre><p>4、构造函数</p>
-<pre><code>good:
-    class Point {
-        num x, y;
-    Point(this.x, this.y);
-    }
-
-bad:
-    class Point {
-        num x, y;
-    Point(num x, num y) {
-        this.x = x;
-        this.y = y;
-        }
-    }</code></pre><p>5、一般函数(function)</p>
-<pre><code>//代码逻辑简单，推荐使用=&gt;
-double get area =&gt; (right - left) * (bottom - top);
-bool isReady(num time) =&gt; minTime == null || minTime &lt;= time;
-String capitalize(String name) =&gt;
-    &apos;${name[0].toUpperCase()}${name.substring(1)}&apos;;</code></pre><p>6、异常处理</p>
-<pre><code>good:
-    //使用 rethrow 重新抛出异常
-    try {
-      somethingRisky();
-    } catch (e) {
-      if (!canHandle(e)) rethrow;
-      handle(e);
-    }
-
-bad:
-    try {
-      somethingRisky();
-    } catch (e) {
-      if (!canHandle(e)) throw e;
-      handle(e);
-    }</code></pre>
+                <h2 id="连接数据库-postgresSql"><a href="#连接数据库-postgresSql" class="headerlink" title="连接数据库(postgresSql)"></a>连接数据库(postgresSql)</h2><pre><code>//初始化迁移文件
+aqueduct db generate  
+//将版本迁移文件同步到你的数据库
+aqueduct db upgrade --connect postgres://用户名:密码@localhost:5432/数据库名称
+//更新数据库表
+aqueduct db upgrade</code></pre>
             </div>
             <hr/>
 
@@ -517,7 +363,7 @@ bad:
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.bigshot.cool/2020/04/15/effective-dart/">http://www.bigshot.cool/2020/04/15/effective-dart/</a>
+                    <a href="http://www.bigshot.cool/2020/04/16/dart-server-Aqueduct/">http://www.bigshot.cool/2020/04/16/dart-server-Aqueduct/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -593,9 +439,10 @@ bad:
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/16/dart-server-Aqueduct/">
                     <div class="card-image">
@@ -616,9 +463,9 @@ aqueduct db upgrade --connect postgres://用户名:密码@loc
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -627,6 +474,7 @@ aqueduct db upgrade --connect postgres://用户名:密码@loc
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -637,29 +485,27 @@ aqueduct db upgrade --connect postgres://用户名:密码@loc
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/08/flutter-button/">
+                <a href="/2020/04/15/effective-dart/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter RaiseButton 使用介绍">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dart编程规范">
                         
-                        <span class="card-title">Flutter RaiseButton 使用介绍</span>
+                        <span class="card-title">dart编程规范</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            一、常用属性color:按钮可点击时的颜色
-disabledColor: 按钮不可点击时的颜色
-disabledColorTextColor:按钮不可点击时文字的颜色
-textColor:按钮可点击时文字的颜色
-shape:按钮的样式
-  
+                            一、命名规范1、类名，枚举，类型定义，类型参数采用首字母大写的驼峰式命名方式
+class SliderMenu { ... }
+class HttpRequest { ... }
+typedef Predicate&lt;T&gt; = b
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-15
                             </span>
                         <span class="publish-author">
                             
